@@ -30,6 +30,16 @@ file_name = os.path.basename(file)
 files = glob.glob("data/*.xlsx")
 df = pd.concat([pd.read_excel(f) for f in files])
 
+## or better:--
+
+from pathlib import Path
+import pandas as pd
+
+folder = Path(r"D:\SAP\Exports")
+
+files = folder.glob("*.xlsx")
+
+df = pd.concat([pd.read_excel(f) for f in files])
 
 # ==========================================
 # FILTERING & SELECTION
