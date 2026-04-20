@@ -15,6 +15,8 @@ import matplotlib.pyplot as plt
 import glob
 import os
 
+from FIFO import Merged
+
 
 # ==========================================
 # FILE HANDLING
@@ -90,8 +92,10 @@ df["date"].dt.month
 df["date"].min()
 df["date"].max()
 
+# Convert dates to date-only format for better Excel display (optional)
+Merged["Min GR Date Stock"] = Merged["Report Date"].dt.date
 
-# ==========================================
+# =========================================
 # MERGE / JOIN
 # ==========================================
 
@@ -265,3 +269,27 @@ rule = FormulaRule(
 ws.conditional_formatting.add("A2:Z100", rule)
 
 wb.save("output.xlsx")
+
+
+# Save with dynamic filename (date-based)
+import pandas as pd
+from datetime import datetime
+from pathlib import Path
+
+# Your dataframe
+# df = ...
+
+# Target folder
+output_folder = Path(r"Z:\Your\Target\Folder")
+
+# Create filename with ddmmyy
+date_str = datetime.today().strftime("%d%m%y")
+file_name = f"FIFO_{date_str}.xlsx"
+
+# Full path
+output_path = output_folder / file_name
+
+# Save Excel file
+df.to_excel(output_path, index=False)
+
+print(f"File saved to: {output_path}")
